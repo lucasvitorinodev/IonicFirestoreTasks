@@ -15,13 +15,12 @@ export class AuthService {
   }
 
   private signUpWithEmail({email, password, name}): Promise<auth.UserCredential> {
-    // @ts-ignore
     return this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
-      .then(credentials => {
+      .then(credentials =>
         credentials.user
           .updateProfile({displayName: name, photoURL: null})
-          .then(() => credentials);
-      });
+          .then(() => credentials)
+      );
   }
 }
