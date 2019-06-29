@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {FindValueOperator} from 'rxjs/internal/operators/find';
 
+import {AuthService} from '../../../core/services/auth.service';
+import {AuthProvider} from '../../../core/services/auth.types';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -10,6 +13,7 @@ import {FindValueOperator} from 'rxjs/internal/operators/find';
 export class LoginPage implements OnInit {
 
   authForm: FormGroup;
+  authProviders = AuthProvider;
   configs = {
     isSignIn: true,
     action: 'Login',
@@ -17,7 +21,7 @@ export class LoginPage implements OnInit {
   };
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  constructor(private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -45,7 +49,7 @@ export class LoginPage implements OnInit {
 
   changeAuthAction(): void {
     this.configs.isSignIn = !this.configs.isSignIn;
-    const { isSignIn } = this.configs;
+    const {isSignIn} = this.configs;
     this.configs.action = isSignIn ? 'Login' : 'Sign Up';
     this.configs.actionChange = isSignIn ? 'Create Account' : 'Already have an account';
     !isSignIn
@@ -53,8 +57,18 @@ export class LoginPage implements OnInit {
       : this.authForm.removeControl('name');
   }
 
-  onSubmit(): void {
-    console.log('AuthForm: ', this.authForm.value);
+  async onSubmit(provider: AuthProvider): Promise<void> {
+    try {
+      const credentials = await this.authService.authenticate({
+        isSignIn: this.configs.isSignIn,
+        user: this.authForm.value,
+        provider
+      });
+      console.log('Authenticated: ', credentials);
+      console.log('Redirecting...');
+    } catch (e) {
+      console.log('Auth Error: ', e);
+    }
   }
 
 }
