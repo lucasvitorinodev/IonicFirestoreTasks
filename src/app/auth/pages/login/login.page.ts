@@ -4,6 +4,7 @@ import {FindValueOperator} from 'rxjs/internal/operators/find';
 
 import {AuthService} from '../../../core/services/auth.service';
 import {AuthProvider} from '../../../core/services/auth.types';
+import {OverlayService} from '../../../core/services/overlay.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,9 @@ export class LoginPage implements OnInit {
   };
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService,
+              private fb: FormBuilder,
+              private overlayService: OverlayService) {
   }
 
   ngOnInit(): void {
@@ -58,6 +61,7 @@ export class LoginPage implements OnInit {
   }
 
   async onSubmit(provider: AuthProvider): Promise<void> {
+    const loading = await this.overlayService.loading();
     try {
       const credentials = await this.authService.authenticate({
         isSignIn: this.configs.isSignIn,
@@ -68,6 +72,11 @@ export class LoginPage implements OnInit {
       console.log('Redirecting...');
     } catch (e) {
       console.log('Auth Error: ', e);
+      await this.overlayService.toast({
+        message: e.message
+      });
+    } finally {
+      loading.dismiss();
     }
   }
 
