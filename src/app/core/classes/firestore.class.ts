@@ -1,7 +1,7 @@
 import { AngularFirestore, AngularFirestoreCollection, QueryFn } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-export abstract class FirestoreClass<T extends { id: string }> {
+export abstract class Firestore<T extends { id: string }> {
   protected collection: AngularFirestoreCollection<T>;
 
   constructor(protected db: AngularFirestore) {
