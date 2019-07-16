@@ -31,13 +31,16 @@ export class TaskSavePage implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    const loading = await this.overlayService.loading();
+    const loading = await this.overlayService.loading({
+      message: 'Saving...'
+    });
     try {
-      const task = await this.tasksService.create(this.taskForm.value);
-      console.log('Task Created! ', task);
+      await this.tasksService.create(this.taskForm.value);
       this.navCtrl.navigateBack('/tasks');
     } catch (e) {
-      console.log('Error while creating new Task: ', e);
+      await this.overlayService.toast({
+        message: e.message
+      });
     } finally {
       loading.dismiss();
     }
