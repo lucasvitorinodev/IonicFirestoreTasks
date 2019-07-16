@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Task } from '../../models/task.model';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -11,14 +12,11 @@ export class TasksListPage implements OnInit {
 
   tasks$: Observable<Task[]>;
 
-  constructor() {
+  constructor(private tasksService: TasksService) {
   }
 
   ngOnInit(): void {
-    this.tasks$ = of([
-      {id: '1', title: 'Learn Ionic', done: true},
-      {id: '2', title: 'Learn Firestore', done: false}
-    ]);
+    this.tasks$ = this.tasksService.getAll();
   }
 
 }
