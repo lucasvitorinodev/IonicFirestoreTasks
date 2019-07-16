@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-task-save',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskSavePage implements OnInit {
 
-  constructor() { }
+  taskForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit() {
+    this.createForm();
+  }
+
+  private createForm(): void {
+    this.taskForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      done: [false]
+    });
+  }
+
+  onSubmit(): void {
+    console.log('Task = ', this.taskForm.value);
   }
 
 }
