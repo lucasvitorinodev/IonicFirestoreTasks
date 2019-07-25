@@ -1,5 +1,5 @@
 <ion-item-sliding #sliding>
-  <ion-item (click)="delete.emit(task)">
+  <ion-item (click)="update.emit(task)">
     {{task.title}}
     <ion-toggle color="primary" slot="end" [checked]="task.done" (ionChange)="done.emit(task)"
                 (click)="$event.stopPropagation()"></ion-toggle>
