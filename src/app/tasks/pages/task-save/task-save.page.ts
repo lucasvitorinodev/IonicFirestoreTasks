@@ -58,7 +58,12 @@ export class TaskSavePage implements OnInit {
       message: 'Saving...'
     });
     try {
-      await this.tasksService.create(this.taskForm.value);
+      const task = !this.taskId
+        ? await this.tasksService.create(this.taskForm.value)
+        : await this.tasksService.update({
+          id: this.taskId,
+          ...this.taskForm.value
+        });
       this.navCtrl.navigateBack('/tasks');
     } catch (e) {
       await this.overlayService.toast({
