@@ -23,7 +23,7 @@ export class AppComponent {
   initializeApp() {
     this.pages = [
       { url: '/tasks', direction: 'back', icon: 'checkmark', text: 'Tasks' },
-      { url: '/tasks/create', direction: 'forward', icon: 'add', text: 'Tasks' }
+      { url: '/tasks/create', direction: 'forward', icon: 'add', text: 'Create Task' }
     ];
 
     this.platform.ready().then(() => {

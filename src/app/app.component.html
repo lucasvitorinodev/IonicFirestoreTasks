@@ -9,12 +9,14 @@
     </ion-header>
 
     <ion-content>
-      <ion-list>
-        <ion-item button *ngFor="let page of pages" [routerLink]="page.url" [routerDirection]="page.direction">
-          <ion-icon [name]="page.icon" slot="start"></ion-icon>
-          <ion-label>{{ page.text }}</ion-label>
-        </ion-item>
-      </ion-list>
+      <ion-menu-toggle autoHide="false">
+        <ion-list>
+          <ion-item button *ngFor="let page of pages" [routerLink]="page.url" [routerDirection]="page.direction">
+            <ion-icon [name]="page.icon" slot="start"></ion-icon>
+            <ion-label>{{ page.text }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-menu-toggle>
     </ion-content>
   </ion-menu>
 
