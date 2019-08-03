@@ -11,6 +11,7 @@
     <ion-content>
       <ion-menu-toggle autoHide="false">
         <ion-list>
+          <ion-list-header *ngIf="user">{{ user.displayName }}</ion-list-header>
           <ion-item button *ngFor="let page of pages" [routerLink]="page.url" [routerDirection]="page.direction">
             <ion-icon [name]="page.icon" slot="start"></ion-icon>
             <ion-label>{{ page.text }}</ion-label>
